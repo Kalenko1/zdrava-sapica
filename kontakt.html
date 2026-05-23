@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kontakt – Zdrava Šapica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+
+    /* ===== CONTACT LAYOUT ===== */
+    .contact-main {
+      padding: 80px 8% 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    /* ===== LEFT — info panel ===== */
+    .contact-info-panel {}
+
+    .contact-info-panel .section-tag { margin-bottom: 8px; }
+    .contact-info-panel h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      font-weight: 600; color: var(--text-dark); line-height: 1.2;
+      margin-bottom: 8px;
+    }
+    .contact-info-panel h2 em { font-style: italic; color: var(--green-mid); }
+    .contact-info-panel .section-divider { margin: 16px 0 28px; }
+    .contact-intro {
+      font-size: 0.97rem; color: var(--text-mid);
+      line-height: 1.85; font-weight: 300; margin-bottom: 36px;
+    }
+    .contact-intro strong { color: var(--green-dark); font-weight: 700; }
+
+    /* Info items */
+    .info-items { display: flex; flex-direction: column; gap: 0; }
+    .info-item {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 22px 0;
+      border-bottom: 1px solid rgba(168,196,154,0.25);
+    }
+    .info-item:first-child { padding-top: 0; }
+    .info-item:last-child { border-bottom: none; }
+    .info-icon {
+      width: 46px; height: 46px; border-radius: 50%;
+      background: rgba(168,196,154,0.2);
+      border: 1px solid rgba(168,196,154,0.4);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; flex-shrink: 0;
+    }
+    .info-text {}
+    .info-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-light); margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 0.95rem; color: var(--text-dark); font-weight: 400; line-height: 1.5;
+    }
+    .info-value a { color: var(--green-dark); transition: color 0.2s; }
+    .info-value a:hover { color: var(--lila); }
+
+    /* Radno vreme */
+    .hours-table { width: 100%; }
+    .hours-row {
+      display: flex; justify-content: space-between;
+      font-size: 0.9rem; padding: 5px 0;
+      color: var(--text-mid);
+    }
+    .hours-row .day { font-weight: 400; }
+    .hours-row .time { font-weight: 700; color: var(--green-dark); }
+    .hours-row.closed .time { color: var(--text-light); font-weight: 400; }
+    .hours-row.today .day { color: var(--lila); font-weight: 700; }
+    .hours-row.today .time { color: var(--lila); }
+
+    /* Social cards */
+    .social-section {
+      margin-top: 36px;
+    }
+    .social-section-label {
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--text-light); margin-bottom: 14px;
+    }
+    .social-cards { display: flex; gap: 12px; }
+    .social-card {
+      flex: 1; display: flex; align-items: center; gap: 12px;
+      padding: 14px 16px; border-radius: var(--radius-sm);
+      border: 1px solid rgba(168,196,154,0.35);
+      background: var(--white);
+      transition: all 0.3s; cursor: pointer;
+      text-decoration: none;
+    }
+    .social-card:hover { border-color: var(--green-mid); box-shadow: var(--shadow); transform: translateY(-2px); }
+    .social-card-icon { font-size: 1.5rem; }
+    .social-card-info {}
+    .social-card-platform {
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-light);
+    }
+    .social-card-handle {
+      font-size: 0.88rem; font-weight: 700; color: var(--green-dark);
+    }
+
+    /* ===== RIGHT — MAP + CTA ===== */
+    .contact-right {}
+
+    .map-wrapper {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(168,196,154,0.3);
+      margin-bottom: 24px;
+    }
+    .map-wrapper iframe {
+      width: 100%; height: 420px;
+      display: block; border: none;
+    }
+
+    /* Map placeholder (dok se ne postavi prava adresa) */
+    .map-placeholder {
+      width: 100%; height: 420px;
+      background: linear-gradient(135deg, var(--cream-dark) 0%, var(--mint) 100%);
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 16px; text-align: center; padding: 40px;
+    }
+    .map-placeholder-icon { font-size: 4rem; }
+    .map-placeholder h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem; color: var(--green-dark);
+    }
+    .map-placeholder p { font-size: 0.88rem; color: var(--text-mid); line-height: 1.7; }
+
+    .map-caption {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.8rem; color: var(--text-light);
+      padding: 0 4px;
+    }
+    .map-caption::before { content: '📍'; font-size: 0.9rem; }
+    .map-caption a { color: var(--green-dark); font-weight: 700; transition: color 0.2s; }
+    .map-caption a:hover { color: var(--lila); }
+
+    /* Directions CTA card */
+    .directions-card {
+      background: var(--green-dark); border-radius: var(--radius);
+      padding: 28px 32px;
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 20px; margin-top: 20px;
+      flex-wrap: wrap;
+    }
+    .directions-card-text {}
+    .directions-card-text p {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      color: var(--green-light); margin-bottom: 4px;
+    }
+    .directions-card-text h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; color: white; font-weight: 600;
+    }
+    .btn-maps {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white; color: var(--green-dark);
+      padding: 11px 24px; border-radius: 50px;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      transition: all 0.3s; white-space: nowrap;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    }
+    .btn-maps:hover { background: var(--mint); transform: translateY(-2px); }
+
+    /* ===== QUICK CONTACT STRIP ===== */
+    .quick-contact {
+      background: var(--cream-dark);
+      padding: 60px 8%;
+    }
+    .quick-contact-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .quick-card {
+      background: var(--white); border-radius: var(--radius);
+      padding: 32px 28px; text-align: center;
+      border: 1px solid transparent;
+      transition: all 0.3s;
+    }
+    .quick-card:hover { border-color: var(--mint); box-shadow: var(--shadow); transform: translateY(-4px); }
+    .quick-card-icon { font-size: 2.4rem; margin-bottom: 16px; }
+    .quick-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 600;
+      color: var(--text-dark); margin-bottom: 8px;
+    }
+    .quick-card p { font-size: 0.86rem; color: var(--text-light); line-height: 1.6; margin-bottom: 20px; }
+    .quick-card-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green-dark);
+      padding: 10px 22px; border-radius: 50px;
+      border: 2px solid var(--green-light);
+      transition: all 0.3s;
+    }
+    .quick-card-link:hover { background: var(--mint); border-color: var(--green-mid); }
+
+    /* ===== FAQ STRIP ===== */
+    .faq-section {
+      padding: 80px 8%;
+      background: var(--cream);
+    }
+    .faq-inner {
+      max-width: 760px; margin: 0 auto;
+    }
+    .faq-list { margin-top: 40px; }
+    .faq-item {
+      border-bottom: 1px solid rgba(168,196,154,0.3);
+    }
+    .faq-question {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 20px 0; cursor: pointer;
+      font-family: 'Playfair Display', serif;
+      font-size: 1rem; font-weight: 600; color: var(--text-dark);
+      transition: color 0.2s; gap: 16px;
+    }
+    .faq-question:hover { color: var(--green-mid); }
+    .faq-arrow {
+      font-size: 1rem; transition: transform 0.3s;
+      color: var(--green-light); flex-shrink: 0;
+    }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.4s ease, padding 0.3s;
+    }
+    .faq-item.open .faq-answer { max-height: 300px; }
+    .faq-answer p {
+      font-size: 0.92rem; color: var(--text-mid);
+      line-height: 1.8; font-weight: 300;
+      padding-bottom: 20px;
+    }
+    .faq-answer p strong { color: var(--green-dark); font-weight: 700; }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .contact-grid { grid-template-columns: 1fr; }
+      .quick-contact-inner { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .contact-main { padding: 60px 6% 80px; }
+      .social-cards { flex-direction: column; }
+      .directions-card { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="slike/logo.png" alt="Zdrava Šapica logo" />
+     
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Početna</a></li>
+      <li><a href="o-nama.html">O nama</a></li>
+      <li><a href="proizvodi.html">Proizvodi</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="kontakt.html" class="active">Kontakt</a></li>
+    </ul>
+    <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <span class="page-hero-tag">Pronađite nas</span>
+    <h1>Kontakt — <em>dođite kod nas</em></h1>
+    <p>Rado vas čekamo — dođite lično, pozovite nas ili nas pronađite na mapi. Uvek smo tu za vas.</p>
+  </section>
+
+  <!-- MAIN CONTACT SECTION -->
+  <div class="contact-main">
+    <div class="contact-grid">
+
+      <!-- LEFT: Info -->
+      <div class="contact-info-panel reveal">
+        <span class="section-tag">Informacije</span>
+        <h2>Uvek smo <em>tu za vas</em></h2>
+        <div class="section-divider" style="margin-left:0;"></div>
+        <p class="contact-intro">
+          Zdrava Šapica je vaše mesto za sve što vaš ljubimac treba — od ishrane i nege do stručnog saveta. Naš tim vas čeka sa <strong>osmehom i znanjem</strong> svakog radnog dana.
+        </p>
+
+        <div class="info-items">
+
+          <div class="info-item">
+            <div class="info-icon">📍</div>
+            <div class="info-text">
+              <div class="info-label">Adresa</div>
+              <div class="info-value">
+                Vaša ulica bb, Kragujevac<br/>
+                <small style="color:var(--text-light); font-size:0.82rem;">Blizu centra grada — lako parkovanje</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">🕐</div>
+            <div class="info-text">
+              <div class="info-label">Radno vreme</div>
+              <div class="info-value">
+                <div class="hours-table">
+                  <div class="hours-row"><span class="day">Ponedeljak</span><span class="time">09:00 – 18:00</span></div>
+                  <div class="hours-row"><span class="day">Utorak</span><span class="time">09:00 – 18:00</span></div>
+                  <div class="hours-row"><span class="day">Sreda</span><span class="time">09:00 – 18:00</span></div>
+                  <div class="hours-row"><span class="day">Četvrtak</span><span class="time">09:00 – 18:00</span></div>
+                  <div class="hours-row"><span class="day">Petak</span><span class="time">09:00 – 18:00</span></div>
+                  <div class="hours-row"><span class="day">Subota</span><span class="time">09:00 – 14:00</span></div>
+                  <div class="hours-row closed"><span class="day">Nedelja</span><span class="time">Zatvoreno</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">📞</div>
+            <div class="info-text">
+              <div class="info-label">Telefon</div>
+              <div class="info-value">
+                <a href="tel:+381600000000">+381 60 000 00 00</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-item">
+            <div class="info-icon">✉️</div>
+            <div class="info-text">
+              <div class="info-label">E-mail</div>
+              <div class="info-value">
+                <a href="mailto:zdravasapica@email.com">zdravasapica@email.com</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Social -->
+        <div class="social-section">
+          <div class="social-section-label">Pratite nas na društvenim mrežama</div>
+          <div class="social-cards">
+            <a href="https://instagram.com/" target="_blank" class="social-card">
+              <div class="social-card-icon">📸</div>
+              <div class="social-card-info">
+                <div class="social-card-platform">Instagram</div>
+                <div class="social-card-handle">@zdravasapica</div>
+              </div>
+            </a>
+            <a href="https://facebook.com/" target="_blank" class="social-card">
+              <div class="social-card-icon">👍</div>
+              <div class="social-card-info">
+                <div class="social-card-platform">Facebook</div>
+                <div class="social-card-handle">Zdrava Šapica</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: Map -->
+      <div class="contact-right reveal">
+        <div class="map-wrapper">
+          <!--
+            UPUTSTVO ZA POSTAVLJANJE MAPE:
+            1. Idite na maps.google.com
+            2. Pronađite vašu lokaciju
+            3. Kliknite Share → Embed a map
+            4. Kopirajte <iframe> i zamenite placeholder ispod
+
+            Privremeni placeholder:
+          -->
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d91838.96!2d20.8651!3d44.0128!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4756eed0b72782ad%3A0x5ed3f0cc2e22fc3a!2sKragujevac!5e0!3m2!1ssr!2srs!4v1700000000000!5m2!1ssr!2srs"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            title="Zdrava Šapica — lokacija na mapi">
+          </iframe>
+        </div>
+
+        <p class="map-caption">
+          Vaša ulica bb, Kragujevac —
+          <a href="https://maps.google.com/?q=Kragujevac" target="_blank">Otvori u Google Maps</a>
+        </p>
+
+        <div class="directions-card">
+          <div class="directions-card-text">
+            <p>Navigacija</p>
+            <h3>Pronađi nas na mapi →</h3>
+          </div>
+          <a
+            href="https://maps.google.com/?q=Kragujevac"
+            target="_blank"
+            class="btn-maps">
+            🗺️ Google Maps
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- QUICK CONTACT CARDS -->
+  <div class="quick-contact">
+    <div class="quick-contact-inner">
+      <div class="quick-card reveal">
+        <div class="quick-card-icon">📞</div>
+        <h3>Pozovite nas</h3>
+        <p>Imate pitanje o proizvodu ili trebate savet? Naš tim je tu za vas svakim radnim danom.</p>
+        <a href="tel:+381600000000" class="quick-card-link">📞 Pozovi</a>
+      </div>
+      <div class="quick-card reveal">
+        <div class="quick-card-icon">📸</div>
+        <h3>Instagram DM</h3>
+        <p>Pratite naš Instagram za novosti, akcije i slatke fotografije vaših ljubimaca. Pišite nam u DM!</p>
+        <a href="https://instagram.com/" target="_blank" class="quick-card-link">📸 Instagram</a>
+      </div>
+      <div class="quick-card reveal">
+        <div class="quick-card-icon">👍</div>
+        <h3>Facebook stranica</h3>
+        <p>Pratite nas na Facebooku i budite prvi koji saznaju o novim proizvodima i specijalnim ponudama.</p>
+        <a href="https://facebook.com/" target="_blank" class="quick-card-link">👍 Facebook</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section">
+    <div class="faq-inner">
+      <div class="section-header reveal">
+        <span class="section-tag">Česta pitanja</span>
+        <h2 class="section-title">Imate <em>pitanje?</em></h2>
+        <div class="section-divider"></div>
+      </div>
+      <div class="faq-list">
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Da li nudite stručne savete bez kupovine?
+            <span class="faq-arrow">▾</span>
+          </div>
+          <div class="faq-answer">
+            <p>Apsolutno! Naš tim je tu da <strong>odgovori na vaša pitanja</strong> — bez obaveze kupovine. Možete nas pozvati, pisati na Instagram ili doći lično. Verujemo da poverenje se gradi iskrenim odnosom, ne pritiskom.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Da li imate sve veterinarske dijete na stanju?
+            <span class="faq-arrow">▾</span>
+          </div>
+          <div class="faq-answer">
+            <p>Trudimo se da uvek imamo dostupan što širi asortiman, ali za <strong>specifičnu dijetu ili retki preparat</strong> preporučujemo da nas unapred kontaktirate. Možemo naručiti i ono što trenutno nije na stanju.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Koliko brzo možete naručiti proizvod koji nemate?
+            <span class="faq-arrow">▾</span>
+          </div>
+          <div class="faq-answer">
+            <p>Većinom <strong>1–3 radna dana</strong>, u zavisnosti od dobavljača. Za medicinske dijete koje zahtevaju veterinarski recept, slobodno nas kontaktirajte unapred kako bismo organizovali sve na vreme.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Da li radite vikendom?
+            <span class="faq-arrow">▾</span>
+          </div>
+          <div class="faq-answer">
+            <p>Subotom smo otvoreni od <strong>09:00 do 14:00</strong>. Nedeljom ne radimo. Za hitne upite možete nam pisati na Instagram — trudimo se da odgovorimo što pre.</p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFaq(this)">
+            Mogu li doneti ljubimca u prodavnicu?
+            <span class="faq-arrow">▾</span>
+          </div>
+          <div class="faq-answer">
+            <p><strong>Naravno!</strong> Volimo kad naši mali gosti dođu u posetu. Dođite sa vašim ljubimcem — i mi ćemo im biti još srećniji što ste tu. 🐾</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="slike/logo.png" alt="Zdrava Šapica" />
+          <span class="footer-logo-name">Zdrava Šapica</span>
+        </div>
+        <p class="footer-tagline">Zdravlje koje dolazi iz prirode ♡</p>
+        <p class="footer-desc">Pet shop i veterinarska apoteka posvećena holističkom pristupu zdravlju vaših ljubimaca.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">📸</a>
+          <a href="https://facebook.com/" target="_blank" class="social-btn" title="Facebook">👍</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4>Stranice</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="o-nama.html">O nama</a></li>
+          <li><a href="proizvodi.html">Proizvodi</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+381600000000">+381 60 000 00 00</a></li>
+          <li><a href="mailto:zdravasapica@email.com">zdravasapica@email.com</a></li>
+          <li><a href="https://maps.google.com/?q=Kragujevac" target="_blank">Otvori u Google Maps</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Zdrava Šapica. Sva prava zadržana.</p>
+      <p>Napravljeno s 🐾 ljubavlju</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+    document.getElementById('navBurger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+    // Reveal
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // FAQ accordion
+    function toggleFaq(el) {
+      const item = el.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
+
+    // Pre-fill from URL query (e.g. kontakt.html?product=Acana)
+    const params = new URLSearchParams(window.location.search);
+    const product = params.get('product');
+    if (product) {
+      // Show a small toast notification
+      const toast = document.createElement('div');
+      toast.style.cssText = `
+        position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%);
+        background: var(--green-dark); color: white;
+        padding: 14px 28px; border-radius: 50px;
+        font-family: Lato, sans-serif; font-size: 0.88rem; font-weight: 700;
+        box-shadow: 0 8px 32px rgba(74,103,65,0.3);
+        z-index: 300; animation: fadeInUp 0.4s ease;
+      `;
+      toast.textContent = `Upit za: ${product} — pozovite nas na +381 60 000 00 00`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 6000);
+    }
+  </script>
+</body>
+</html>

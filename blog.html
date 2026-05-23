@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog – Zdrava Šapica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+  <style>
+    /* ===== BLOG GRID PAGE ===== */
+    .blog-main {
+      padding: 80px 8%;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Filter tabs */
+    .blog-filter {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin-bottom: 52px;
+    }
+    .blog-filter-btn {
+      padding: 8px 20px; border-radius: 50px;
+      border: 2px solid rgba(168,196,154,0.4);
+      background: transparent; color: var(--text-mid);
+      font-family: 'Lato', sans-serif; font-size: 0.82rem;
+      font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.25s;
+    }
+    .blog-filter-btn:hover { border-color: var(--green-mid); color: var(--green-dark); }
+    .blog-filter-btn.active { background: var(--green-dark); border-color: var(--green-dark); color: white; }
+
+    /* Featured article */
+    .blog-featured {
+      display: grid; grid-template-columns: 1.2fr 1fr;
+      gap: 0; border-radius: var(--radius);
+      overflow: hidden; box-shadow: var(--shadow);
+      margin-bottom: 56px; background: var(--white);
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .blog-featured:hover { transform: translateY(-4px); box-shadow: 0 16px 48px rgba(74,103,65,0.18); }
+    .blog-featured-img {
+      background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 6rem; min-height: 400px; position: relative; overflow: hidden;
+    }
+    .blog-featured-img::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(74,103,65,0.15) 0%, transparent 60%);
+    }
+    .blog-featured-body {
+      padding: 52px 44px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .blog-featured-label {
+      font-size: 0.68rem; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--lila); margin-bottom: 8px;
+    }
+    .blog-featured-body h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.4rem, 2.2vw, 2rem);
+      font-weight: 600; color: var(--text-dark);
+      line-height: 1.3; margin-bottom: 16px;
+    }
+    .blog-featured-body h2 em { font-style: italic; color: var(--green-mid); }
+    .blog-featured-body p {
+      font-size: 0.95rem; color: var(--text-mid);
+      line-height: 1.8; font-weight: 300; margin-bottom: 28px;
+    }
+    .blog-meta {
+      display: flex; align-items: center; gap: 20px;
+      margin-bottom: 24px;
+    }
+    .blog-meta-item {
+      font-size: 0.75rem; color: var(--text-light);
+      font-weight: 700; letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    .blog-meta-dot { color: var(--green-light); }
+
+    /* Articles grid */
+    .blog-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+    .blog-card {
+      background: var(--white); border-radius: var(--radius);
+      overflow: hidden; transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+    }
+    .blog-card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .blog-card-img {
+      aspect-ratio: 16/9; background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 3.2rem; overflow: hidden; position: relative;
+    }
+    .blog-card-body { padding: 28px; }
+    .blog-tag {
+      display: inline-block;
+      background: rgba(184,127,184,0.12); color: var(--lila);
+      font-size: 0.68rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 4px 12px; border-radius: 50px; margin-bottom: 12px;
+    }
+    .blog-tag.green { background: rgba(168,196,154,0.2); color: var(--green-dark); }
+    .blog-card h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.05rem; font-weight: 600;
+      color: var(--text-dark); line-height: 1.4; margin-bottom: 10px;
+    }
+    .blog-card p { font-size: 0.86rem; color: var(--text-light); line-height: 1.65; margin-bottom: 20px; }
+    .blog-card-footer {
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .blog-read-more {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      color: var(--green-dark); transition: gap 0.3s;
+    }
+    .blog-read-more:hover { gap: 10px; color: var(--green-mid); }
+    .blog-read-time {
+      font-size: 0.72rem; color: var(--text-light); font-weight: 700;
+      letter-spacing: 0.06em; text-transform: uppercase;
+    }
+
+    /* ===== ARTICLE MODAL / FULL READ ===== */
+    .article-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(45,58,45,0.6);
+      backdrop-filter: blur(6px);
+      opacity: 0; pointer-events: none;
+      transition: opacity 0.3s;
+      display: flex; align-items: flex-start; justify-content: center;
+      padding: 40px 20px; overflow-y: auto;
+    }
+    .article-overlay.open { opacity: 1; pointer-events: all; }
+
+    .article-modal {
+      background: var(--cream); border-radius: 24px;
+      max-width: 760px; width: 100%;
+      box-shadow: 0 24px 80px rgba(45,58,45,0.25);
+      transform: translateY(32px);
+      transition: transform 0.4s ease;
+      position: relative; overflow: hidden;
+    }
+    .article-overlay.open .article-modal { transform: translateY(0); }
+
+    .article-close {
+      position: absolute; top: 20px; right: 20px; z-index: 10;
+      width: 44px; height: 44px; border-radius: 50%;
+      background: rgba(245,240,232,0.9);
+      border: 1px solid rgba(168,196,154,0.4);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; font-size: 1.3rem;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .article-close:hover { background: var(--white); transform: rotate(90deg); }
+
+    .article-hero-img {
+      height: 280px; background: var(--cream-dark);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 7rem; position: relative;
+    }
+    .article-hero-img::after {
+      content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 60px;
+      background: linear-gradient(to top, var(--cream), transparent);
+    }
+    .article-body { padding: 44px 52px 52px; }
+
+    .article-tag { margin-bottom: 12px; }
+    .article-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 600; color: var(--text-dark);
+      line-height: 1.25; margin-bottom: 16px;
+    }
+    .article-title em { font-style: italic; color: var(--green-mid); }
+    .article-meta { margin-bottom: 32px; padding-bottom: 24px; border-bottom: 2px solid var(--mint); }
+
+    .article-content h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; font-weight: 600;
+      color: var(--text-dark); margin: 32px 0 12px;
+    }
+    .article-content h3::before { content: '🌿 '; }
+    .article-content p {
+      font-size: 0.97rem; color: var(--text-mid);
+      line-height: 1.9; font-weight: 300; margin-bottom: 20px;
+    }
+    .article-content p strong { color: var(--green-dark); font-weight: 700; }
+    .article-content ul {
+      margin: 0 0 20px 20px;
+    }
+    .article-content ul li {
+      font-size: 0.95rem; color: var(--text-mid);
+      line-height: 1.8; font-weight: 300; margin-bottom: 8px;
+      padding-left: 8px;
+    }
+    .article-tip {
+      background: rgba(168,196,154,0.18);
+      border-left: 4px solid var(--green-mid);
+      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+      padding: 20px 24px; margin: 28px 0;
+    }
+    .article-tip p { margin: 0; font-size: 0.92rem; }
+    .article-tip strong { color: var(--green-dark); }
+    .article-script-quote {
+      font-family: 'Dancing Script', cursive;
+      font-size: 1.5rem; color: var(--lila);
+      text-align: center; margin: 32px 0;
+    }
+
+    /* Newsletter strip */
+    .blog-newsletter {
+      background: var(--green-dark); padding: 60px 8%;
+      text-align: center;
+    }
+    .blog-newsletter-inner { max-width: 560px; margin: 0 auto; }
+    .blog-newsletter h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem; color: white;
+      font-weight: 600; margin-bottom: 12px;
+    }
+    .blog-newsletter h2 em { font-style: italic; color: var(--mint); }
+    .blog-newsletter p { color: rgba(200,223,192,0.8); font-size: 0.95rem; font-weight: 300; margin-bottom: 28px; }
+    .newsletter-form { display: flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .newsletter-input {
+      flex: 1; min-width: 220px;
+      padding: 13px 20px; border-radius: 50px;
+      border: 2px solid rgba(168,196,154,0.3);
+      background: rgba(255,255,255,0.08);
+      color: white; font-family: 'Lato', sans-serif;
+      font-size: 0.9rem; outline: none;
+      transition: border-color 0.3s;
+    }
+    .newsletter-input::placeholder { color: rgba(200,223,192,0.5); }
+    .newsletter-input:focus { border-color: var(--green-light); }
+    .newsletter-btn {
+      padding: 13px 28px; border-radius: 50px;
+      background: white; color: var(--green-dark);
+      border: none; font-family: 'Lato', sans-serif;
+      font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .newsletter-btn:hover { background: var(--mint); transform: translateY(-2px); }
+
+    /* Responsive */
+    @media (max-width: 960px) {
+      .blog-featured { grid-template-columns: 1fr; }
+      .blog-featured-img { min-height: 220px; }
+      .blog-grid { grid-template-columns: 1fr 1fr; }
+      .article-body { padding: 32px 28px 40px; }
+    }
+    @media (max-width: 640px) {
+      .blog-grid { grid-template-columns: 1fr; }
+      .blog-main { padding: 60px 6%; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo">
+      <img src="slike/logo.png" alt="Zdrava Šapica logo" />
+      
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Početna</a></li>
+      <li><a href="o-nama.html">O nama</a></li>
+      <li><a href="proizvodi.html">Proizvodi</a></li>
+      <li><a href="blog.html" class="active">Blog</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <span class="page-hero-tag">Saveti & inspiracija</span>
+    <h1>Blog — <em>zdravlje iz prirode</em></h1>
+    <p>Stručni tekstovi o ishrani, nezi i holističkom pristupu zdravlju vaših ljubimaca.</p>
+  </section>
+
+  <!-- BLOG CONTENT -->
+  <div class="blog-main">
+
+    <!-- Filter -->
+    <div class="blog-filter reveal">
+      <button class="blog-filter-btn active" onclick="filterBlog('sve', this)">🌿 Sve</button>
+      <button class="blog-filter-btn" onclick="filterBlog('ishrana', this)">🥩 Ishrana</button>
+      <button class="blog-filter-btn" onclick="filterBlog('nega', this)">🌸 Nega</button>
+      <button class="blog-filter-btn" onclick="filterBlog('zdravlje', this)">💊 Zdravlje</button>
+      <button class="blog-filter-btn" onclick="filterBlog('saveti', this)">💡 Saveti</button>
+    </div>
+
+    <!-- Featured -->
+    <div class="blog-featured reveal" data-tag="ishrana" onclick="openArticle('holisticka-ishrana')">
+      <div class="blog-featured-img">🐕</div>
+      <div class="blog-featured-body">
+        <div class="blog-featured-label">✨ Izdvojen tekst · Ishrana</div>
+        <div class="blog-meta">
+          <span class="blog-meta-item">15. januar 2025.</span>
+          <span class="blog-meta-dot">·</span>
+          <span class="blog-meta-item">6 min čitanja</span>
+        </div>
+        <h2>Zašto je <em>holistička ishrana</em> važna za vašeg psa?</h2>
+        <p>Ishrana je temelj zdravlja — i kod nas i kod naših ljubimaca. Otkrijte kako pravilna, prirodna ishrana može produžiti i ulepšati život vašeg psa, od vitalne dlake do snažnog imuniteta.</p>
+        <span class="blog-read-more">Čitaj ceo tekst →</span>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="blog-grid">
+
+      <div class="blog-card reveal" data-tag="nega" onclick="openArticle('nega-macke')">
+        <div class="blog-card-img">🐈</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Nega</span>
+          <h3>Prirodna nega mačke — 5 saveta za sjajnu dlaku</h3>
+          <p>Prirodni preparati koji čine razliku u svakodnevnoj nezi vaše mačke, bez štetnih hemikalija.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">4 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" data-tag="zdravlje" onclick="openArticle('suplementi')">
+        <div class="blog-card-img">🌿</div>
+        <div class="blog-card-body">
+          <span class="blog-tag green">Zdravlje</span>
+          <h3>Suplementi za ljubimce — kada i zašto?</h3>
+          <p>Kada je pravo vreme za uvođenje vitamina i suplemenata u ishranu vašeg ljubimca i kako ih pravilno odabrati.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">5 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" data-tag="ishrana" onclick="openArticle('mokra-hrana')">
+        <div class="blog-card-img">🥣</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Ishrana</span>
+          <h3>Suva ili mokra hrana — šta je bolje za mačku?</h3>
+          <p>Stručno poređenje prednosti i mana suve i mokre hrane, s preporukama za različite potrebe.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">4 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" data-tag="saveti" onclick="openArticle('stres-ljubimci')">
+        <div class="blog-card-img">🧡</div>
+        <div class="blog-card-body">
+          <span class="blog-tag green">Saveti</span>
+          <h3>Kako prepoznati stres kod vašeg ljubimca?</h3>
+          <p>Znaci anksioznosti koje lako previđamo i prirodni načini da pomognemo uznemirenom ljubimcu.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">5 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" data-tag="zdravlje" onclick="openArticle('zubi-ljubimci')">
+        <div class="blog-card-img">🦷</div>
+        <div class="blog-card-body">
+          <span class="blog-tag green">Zdravlje</span>
+          <h3>Oralna higijena ljubimaca — zašto je toliko važna?</h3>
+          <p>Bolesti zuba su jedan od najčešćih zdravstvenih problema kod kućnih ljubimaca. Evo kako to promeniti.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">4 min</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card reveal" data-tag="ishrana" onclick="openArticle('grain-free')">
+        <div class="blog-card-img">🌾</div>
+        <div class="blog-card-body">
+          <span class="blog-tag">Ishrana</span>
+          <h3>Grain-free hrana — moda ili medicinska neophodnost?</h3>
+          <p>Istina iza hrane bez žitarica: kome zaista koristi, a kome nije potrebna ova promena u ishrani.</p>
+          <div class="blog-card-footer">
+            <span class="blog-read-more">Čitaj više →</span>
+            <span class="blog-read-time">6 min</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- NEWSLETTER -->
+  <div class="blog-newsletter">
+    <div class="blog-newsletter-inner reveal">
+      <h2>Ostanite <em>informisani</em></h2>
+      <p>Novi tekstovi, saveti i akcije — direktno u vaš inbox. Bez spama, samo korisno.</p>
+      <div class="newsletter-form">
+        <input class="newsletter-input" type="email" placeholder="vasa@email.com" />
+        <button class="newsletter-btn">Prijavi se 🌿</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ARTICLE OVERLAY ===== -->
+  <div class="article-overlay" id="articleOverlay" onclick="closeOnBackdrop(event)">
+    <div class="article-modal" id="articleModal">
+      <button class="article-close" onclick="closeArticle()">✕</button>
+      <div id="articleContent"></div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-inner">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <img src="slike/logo.png" alt="Zdrava Šapica" />
+          <span class="footer-logo-name">Zdrava Šapica</span>
+        </div>
+        <p class="footer-tagline">Zdravlje koje dolazi iz prirode ♡</p>
+        <p class="footer-desc">Pet shop i veterinarska apoteka posvećena holističkom pristupu zdravlju vaših ljubimaca.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/" target="_blank" class="social-btn" title="Instagram">📸</a>
+          <a href="https://facebook.com/" target="_blank" class="social-btn" title="Facebook">👍</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4>Stranice</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="o-nama.html">O nama</a></li>
+          <li><a href="proizvodi.html">Proizvodi</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+381600000000">+381 60 000 00 00</a></li>
+          <li><a href="mailto:zdravasapica@email.com">zdravasapica@email.com</a></li>
+          <li><a href="kontakt.html">Pronađi nas na mapi</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Zdrava Šapica. Sva prava zadržana.</p>
+      <p>Napravljeno s 🐾 ljubavlju</p>
+    </div>
+  </footer>
+
+  <script>
+    // Navbar scroll
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+    document.getElementById('navBurger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+    // Reveal
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // Blog filter
+    function filterBlog(tag, btn) {
+      document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const featured = document.querySelector('.blog-featured');
+      const cards = document.querySelectorAll('.blog-card');
+      if (tag === 'sve') {
+        featured.style.display = '';
+        cards.forEach(c => c.style.display = '');
+      } else {
+        featured.style.display = (featured.dataset.tag === tag) ? '' : 'none';
+        cards.forEach(c => c.style.display = (c.dataset.tag === tag) ? '' : 'none');
+      }
+    }
+
+    // Articles data
+    const articles = {
+      'holisticka-ishrana': {
+        emoji: '🐕',
+        tag: 'Ishrana',
+        tagClass: '',
+        title: 'Zašto je holistička ishrana važna za vašeg psa?',
+        date: '15. januar 2025.',
+        readTime: '6 min čitanja',
+        content: `
+          <p>Kada govorimo o holističkoj ishrani za pse, mislimo na pristup koji posmatra celokupno zdravlje životinje — <strong>telo, um i duhovnu ravnotežu</strong> — a ne samo zadovoljavanje osnovnih prehrambenih potreba.</p>
+
+          <h3>Šta znači "holistički pristup"?</h3>
+          <p>Holostički pristup ishrani podrazumeva <strong>odabir hrane koja je najbliža prirodnoj dijeti</strong> psa u divljini — bogata proteinima životinjskog porekla, sa minimalnim udelom žitarica i veštačkih aditiva. Ovakva ishrana podržava sve sisteme organizma, od digestivnog do imunološkog.</p>
+
+          <div class="article-tip">
+            <p><strong>💡 Ključna razlika:</strong> Konvencionalna hrana zadovoljava minimalne hranidbene norme. Holistička hrana teži optimalnom zdravlju — to je velika razlika u dugotrajnoj vitalnosti psa.</p>
+          </div>
+
+          <h3>Benefiti prirodne ishrane</h3>
+          <ul>
+            <li><strong>Sjajna i gusta dlaka</strong> — zahvaljujući omega-3 i omega-6 masnim kiselinama iz kvalitetnih izvora</li>
+            <li><strong>Zdraviji digestivni sistem</strong> — manje nadimanja, regularnije varenje, manje problema s crijevima</li>
+            <li><strong>Jači imunitet</strong> — prirodni antioksidansi iz hrane podrže odbrambeni sistem</li>
+            <li><strong>Više energije</strong> — proteini visokog kvaliteta osiguravaju stabilnu energiju tokom dana</li>
+            <li><strong>Zdraviji zglobovi</strong> — posebno važno za veće i starije rase pasa</li>
+          </ul>
+
+          <div class="article-script-quote">"Hrana je najmoćniji lek koji možete dati svom ljubimcu." ♡</div>
+
+          <h3>Na šta obratiti pažnju pri izboru hrane?</h3>
+          <p>Pri kupovini hrane za psa, <strong>uvek čitajte deklaraciju</strong>. Meso ili riba treba da budu na prvom mestu liste sastojaka. Izbegavajte hranu koja kao prvu sirovinu navodi žitarice, prehrambene nusproizvode ili "meso u brašnu" bez preciziranja izvora.</p>
+          <p>Brendovi poput <strong>Acana, Orijen i Josera</strong> važe za vrh holističke ponude — sa visokim udelom mesa i transparentnim listama sastojaka.</p>
+
+          <h3>Prelaz na novu ishranu</h3>
+          <p>Tranzicija treba biti <strong>postepena — 7 do 10 dana</strong>. Počnite sa 25% nove hrane i 75% stare, pa svaki dan povećavajte udeo. Nagli prelaz može uzrokovati digestivne smetnje čak i kod zdravih pasa.</p>
+
+          <div class="article-tip">
+            <p><strong>🌿 Naš savet:</strong> Dođite u Zdravu Šapicu — naš tim će vam pomoći da pronađete hranu koja je idealna za rasu, uzrast i zdravstveno stanje vašeg psa. Bez žurbe, bez pritiska.</p>
+          </div>
+        `
+      },
+      'nega-macke': {
+        emoji: '🐈',
+        tag: 'Nega',
+        tagClass: '',
+        title: 'Prirodna nega mačke — 5 saveta za sjajnu dlaku',
+        date: '28. januar 2025.',
+        readTime: '4 min čitanja',
+        content: `
+          <p>Mačke su poznate po svojoj pažljivoj samonezi, ali i one ponekad trebaju malo pomoći — posebno kada je u pitanju zdravlje kože i sjaj dlake. Evo 5 saveta koje možete primeniti već danas.</p>
+
+          <h3>1. Ishrana bogata omega mastnim kiselinama</h3>
+          <p>Osnova sjajne dlake dolazi <strong>iznutra</strong>. Hrana bogata omega-3 i omega-6 masnim kiselinama, ili dodavanje ribljeg ulja u obrok, direktno utiče na kvalitet dlake i zdravlje kože. Suva, krljušnjava koža najčešće je signal nutritivnih nedostataka.</p>
+
+          <h3>2. Prirodni šamponi — jednom mesečno</h3>
+          <p>Većina mačaka ne treba česta kupanja, ali za dugodlake rase ili mačke s kožnim problemima, kupanje <strong>jednom mesečno</strong> prirodnim šamponom bez parabena i silikona može napraviti veliku razliku. Preporučujemo Iv San Bernard liniju.</p>
+
+          <h3>3. Redovno četkanje</h3>
+          <p>Kratko dlake mačke — 2-3 puta nedeljno. Dugo dlake — svaki dan. Četkanje stimuliše cirkulaciju, uklanja mrtvo krzno i <strong>sprečava nastanak čvorića</strong> koji mogu biti bolni i zahtevati stručno uklanjanje.</p>
+
+          <div class="article-tip">
+            <p><strong>💡 Trik:</strong> Počnite s četkanjem od malena. Mačke koje su naučene na četkanje kao mačići prihvataju ga kao deo rutine, umesto kao stres.</p>
+          </div>
+
+          <h3>4. Kontrola parazita</h3>
+          <p>Buhe i grinje su čest uzrok preteranog češanja, lomljive dlake i kožnih iritacija. Redovna <strong>preventivna zaštita</strong> — posebno leti — ključna je za zdravu kožu i dlaku.</p>
+
+          <h3>5. Hidratacija</h3>
+          <p>Mačke su evolutivno loši pijači vode, pa je <strong>mokra hrana</strong> ili česma za mačke odličan način da povećate unos tečnosti. Dehidratacija se direktno odražava na kvalitet dlake i kože.</p>
+
+          <div class="article-script-quote">"Sjajna dlaka je ogledalo zdravog unutrašnjosti." ♡</div>
+        `
+      },
+      'suplementi': {
+        emoji: '🌿',
+        tag: 'Zdravlje',
+        tagClass: 'green',
+        title: 'Suplementi za ljubimce — kada i zašto?',
+        date: '5. februar 2025.',
+        readTime: '5 min čitanja',
+        content: `
+          <p>Suplementi su tema oko koje se mnogi vlasnici pitaju: <strong>"Da li moj ljubimac to zaista treba?"</strong> Odgovor zavisi od starosti, zdravstvenog stanja, rase i ishrane — ali postoje situacije gde suplementacija pravi ogromnu razliku.</p>
+
+          <h3>Kada suplementi nisu potrebni</h3>
+          <p>Ako vaš ljubimac jede <strong>visokokvalitetnu, balansiranu hranu</strong> i nema zdravstvenih tegoba, verovatno mu ne trebaju dodaci. Kvalitetna hrana poput Acane ili Orijana već sadrži sve što je potrebno.</p>
+
+          <h3>Kada suplementi pomažu</h3>
+          <ul>
+            <li><strong>Stariji ljubimci</strong> — glukozamin i hondroitin za zglobove; omega-3 za kognitivnu funkciju</li>
+            <li><strong>Nakon bolesti ili operacije</strong> — vitamini B kompleksa, probiotici za oporavak crevne flore</li>
+            <li><strong>Kožni i problemi s dlakom</strong> — riblje ulje, biotin, cink</li>
+            <li><strong>Anxiozni ljubimci</strong> — L-triptofan, valerijan, magnezijum</li>
+            <li><strong>Sportski i radni psi</strong> — elektroliti, aminokiseline, kreatin</li>
+          </ul>
+
+          <div class="article-tip">
+            <p><strong>⚠️ Važno:</strong> Nikada ne dajte suplementepre nego što se posvetujete sa stručnjakom. Prevelike doze nekih vitamina (A, D, E, K) mogu biti toksične za ljubimce.</p>
+          </div>
+
+          <h3>Naše preporuke</h3>
+          <p>U Zdravoj Šapici nudimo proverene brendove poput <strong>Canina, NordVet i Beaphar</strong> — sa jasnom deklaracijom i dokazanom efikasnošću. Naš tim će vam preporučiti pravi preparat za konkretnu potrebu vašeg ljubimca.</p>
+
+          <div class="article-script-quote">"Pravi suplement, u pravo vreme — to je mudra preventiva." ♡</div>
+        `
+      },
+      'mokra-hrana': {
+        emoji: '🥣',
+        tag: 'Ishrana',
+        tagClass: '',
+        title: 'Suva ili mokra hrana — šta je bolje za mačku?',
+        date: '12. februar 2025.',
+        readTime: '4 min čitanja',
+        content: `
+          <p>Ovo je jedno od najčešćih pitanja vlasnika mačaka, i nema jedinstvenog odgovora — ali ima jasnih smernica koje će vam pomoći da donesete pravu odluku za svog ljubimca.</p>
+
+          <h3>Prednosti mokre hrane</h3>
+          <ul>
+            <li><strong>Visok sadržaj vode (70-80%)</strong> — ključno za mačke koje piju malo, pomaže u prevenciji urinarnih problema</li>
+            <li>Viši udeo proteina i manji ugljeni hidrati — bliže prirodnoj dijeti</li>
+            <li>Ukusnija za birljive mačke</li>
+            <li>Idealna za starije mačke ili one s problemima u ustima</li>
+          </ul>
+
+          <h3>Prednosti suve hrane</h3>
+          <ul>
+            <li><strong>Praktičnost i rok trajanja</strong> — jednostavno doziranje i čuvanje</li>
+            <li>Mehanički efekat na zube — blago sprečava nakupljanje kamenca</li>
+            <li>Cenovnija po obroku</li>
+            <li>Može stajati u zdeli tokom dana (mokra ne može)</li>
+          </ul>
+
+          <div class="article-tip">
+            <p><strong>💡 Optimalno rešenje:</strong> Kombinirajte — <strong>70% mokra, 30% suva</strong>. Dobijate hidrataciju i praktičnost u jednom. Ovo je zlatni standard koji preporučuju mnogi veterinari.</p>
+          </div>
+
+          <h3>Posebne situacije</h3>
+          <p>Mačke s urinarnim problemima — <strong>isključivo mokra</strong> hrana ili dijetetska suva s povišenom hidratacijom. Mačke s dijabetesom — suva hrana s niskim GI ili specijalizovana dijeta. Uvek se posavetujte s veterinarom pre promene ishrane kod bolesnih ljubimaca.</p>
+
+          <div class="article-script-quote">"Dobra hrana nije trošak — to je investicija u zdrav i dug život." ♡</div>
+        `
+      },
+      'stres-ljubimci': {
+        emoji: '🧡',
+        tag: 'Saveti',
+        tagClass: 'green',
+        title: 'Kako prepoznati stres kod vašeg ljubimca?',
+        date: '20. februar 2025.',
+        readTime: '5 min čitanja',
+        content: `
+          <p>Stres kod kućnih ljubimaca je češći nego što mislimo, a simptomi su često suptilni ili ih pogrešno tumačimo kao "loše ponašanje". Prepoznavanje ranih znakova može sprečiti razvoj ozbiljnijih problema.</p>
+
+          <h3>Znaci stresa kod pasa</h3>
+          <ul>
+            <li>Prekomerno lajanje ili zavijanje</li>
+            <li>Destruktivno ponašanje (žvakanje nameštaja, kopanje)</li>
+            <li><strong>Preterano češanje ili lizanje</strong> — čak i bez fizičkog uzroka</li>
+            <li>Povlačenje, skrivanje, smanjen apetit</li>
+            <li>Drhtanje, stajanje sa podvijenim repom</li>
+          </ul>
+
+          <h3>Znaci stresa kod mačaka</h3>
+          <ul>
+            <li>Preterano njeguisanje do gubitka dlake</li>
+            <li>Mokrenje van WC kutije</li>
+            <li><strong>Promena u apetitu</strong> — prestanak jedenja ili prejedanje</li>
+            <li>Agresivnost ili preterana plašljivost</li>
+            <li>Sakrivanje tokom dužeg perioda</li>
+          </ul>
+
+          <div class="article-tip">
+            <p><strong>🌿 Prirodna pomoć:</strong> Beaphar Calming tableti s valerijanum i L-triptofanom mogu značajno smanjiti anksioznost kod ljubimaca. Dostupni su u Zdravoj Šapici.</p>
+          </div>
+
+          <h3>Uzroci i rešenja</h3>
+          <p>Najčešći uzroci su: <strong>selidba, nova životinja u kući, buka (vatromet, grmljavina), usamljenost i promena rutine</strong>. Rešenja uključuju kreiranje sigurnog skloništa, povećanje fizičke aktivnosti, aromaterapiju (lavanda), i po potrebi veterinarske preparate.</p>
+
+          <div class="article-script-quote">"Miran ljubimac živi duže — i srećniji je." ♡</div>
+        `
+      },
+      'zubi-ljubimci': {
+        emoji: '🦷',
+        tag: 'Zdravlje',
+        tagClass: 'green',
+        title: 'Oralna higijena ljubimaca — zašto je toliko važna?',
+        date: '1. mart 2025.',
+        readTime: '4 min čitanja',
+        content: `
+          <p>Znate li da <strong>80% pasa starijih od 3 godine ima neku vrstu bolesti zuba</strong>? Oralna higijena je jedan od najzapostavljenijih aspekata brige o ljubimcima, a posledice mogu biti daleko ozbiljnije od lošeg zadaha.</p>
+
+          <h3>Zašto je to toliko važno?</h3>
+          <p>Bakterije iz usta mogu dospeti u krvotok i <strong>oštetiti srce, bubrege i jetru</strong>. Parodontalna bolest kod ljubimaca direktno je povezana s kraćim životnim vekom. Ovo nije pretnja — ovo su medicinski dokumentovane činjenice.</p>
+
+          <h3>Kako početi?</h3>
+          <ul>
+            <li><strong>Četkanje zuba</strong> — idealno svaki dan, sa pastom za ljubimce (nikad humanom!)</li>
+            <li><strong>Dentalni gelovi</strong> bez četkice (poput Tropiclean gela) — odlično za mačke i neposlušne pse</li>
+            <li><strong>Dentalne poslastice</strong> i igračke koje mehanički čiste zube</li>
+            <li><strong>Suva hrana</strong> — abrazivno delovanje granula pomaže u kontroli kamenca</li>
+          </ul>
+
+          <div class="article-tip">
+            <p><strong>💡 Počnite danas:</strong> Tropiclean Teeth Cleaning Gel je u ponudi Zdrave Šapice — nanesete direktno na zube prstom ili četkicom. Enzimska formula deluje bez trljanja.</p>
+          </div>
+
+          <h3>Profesionalno čišćenje</h3>
+          <p>Jednom godišnje, veterinarsko profesionalno čišćenje zuba pod anestezijom preporučuje se za pse s izraženim kamencem. Preventiva je uvek bolja i jeftinija od lečenja.</p>
+
+          <div class="article-script-quote">"Zdrava usta — zdrav ljubimac od glave do repa." ♡</div>
+        `
+      },
+      'grain-free': {
+        emoji: '🌾',
+        tag: 'Ishrana',
+        tagClass: '',
+        title: 'Grain-free hrana — moda ili medicinska neophodnost?',
+        date: '10. mart 2025.',
+        readTime: '6 min čitanja',
+        content: `
+          <p>Grain-free (hrana bez žitarica) postala je jedan od najpopularnijih trendova u pet ishrani. Ali da li svaki pas ili mačka zaista treba ovakvu hranu, ili je to samo marketinška priča?</p>
+
+          <h3>Šta znači "grain-free"?</h3>
+          <p>Hrana bez žitarica ne sadrži pšenicu, kukuruz, pirinač, zob ili ječam. Umesto toga, ugljene hidrate obezbeđuju <strong>krompir, grašak, sočivo ili batate</strong>. Važno je razumeti — ovo nije isto što i hrana bez ugljenih hidrata.</p>
+
+          <h3>Kome zaista koristi grain-free?</h3>
+          <ul>
+            <li><strong>Psi i mačke s alergijama na žitarice</strong> — relativno retko, ali dobro dokumentovano</li>
+            <li>Ljubimci s <strong>hroničnim digestivnim problemima</strong> koji ne reaguju na standardnu hranu</li>
+            <li>Rase sa <strong>predispozicijom za alergije</strong> — bulldozi, dalmatinci, zlatni retriveri</li>
+          </ul>
+
+          <h3>Ko ne treba da menja ishranu?</h3>
+          <p>Zdrav pas ili mačka koji dobro podnosi standardnu visokokvalitetnu hranu <strong>nema razloga za promenu</strong>. Šta više, neke studije sugerišu moguću vezu između određenih grain-free formula i srčanih bolesti (DCM) kod pasa — istraživanja su još u toku.</p>
+
+          <div class="article-tip">
+            <p><strong>⚠️ Naš stav:</strong> Grain-free hrana je odlično rešenje kada postoji medicinska indikacija. Ali ne menjajte ishranu bez konsultacije — dođite u Zdravu Šapicu i porazgovarajmo o specifičnim potrebama vašeg ljubimca.</p>
+          </div>
+
+          <h3>Kako prepoznati alergiju na žitarice?</h3>
+          <p>Simptomi uključuju: <strong>hronično svrbenje, crvena i upalna koža, česti otitisi, mekana stolica</strong>. Pravi test je eliminacijska dijeta pod veterinarskim nadzorom — jedini pouzdani način dijagnoze prehrambene alergije.</p>
+
+          <div class="article-script-quote">"Svaki ljubimac je jedinstven — i njegova ishrana treba da bude." ♡</div>
+        `
+      }
+    };
+
+    function openArticle(id) {
+      const a = articles[id];
+      if (!a) return;
+      document.getElementById('articleContent').innerHTML = `
+        <div class="article-hero-img">${a.emoji}</div>
+        <div class="article-body">
+          <span class="blog-tag ${a.tagClass} article-tag">${a.tag}</span>
+          <h1 class="article-title">${a.title}</h1>
+          <div class="article-meta blog-meta">
+            <span class="blog-meta-item">${a.date}</span>
+            <span class="blog-meta-dot">·</span>
+            <span class="blog-meta-item">${a.readTime}</span>
+          </div>
+          <div class="article-content">${a.content}</div>
+        </div>
+      `;
+      document.getElementById('articleOverlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeArticle() {
+      document.getElementById('articleOverlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function closeOnBackdrop(e) {
+      if (e.target === document.getElementById('articleOverlay')) closeArticle();
+    }
+
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeArticle(); });
+  </script>
+</body>
+</html>

@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Proizvodi – Zdrava Šapica</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&family=Dancing+Script:wght@500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./css/proizvodi.css" />
+</head>
+<body>
+
+  <nav id="navbar">
+    <a href="index.html" class="nav-logo"><img src="slike/logo.png" alt="Zdrava Šapica" /></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Početna</a></li>
+      <li><a href="o-nama.html">O nama</a></li>
+      <li><a href="proizvodi.html" class="active">Proizvodi</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="kontakt.html">Kontakt</a></li>
+    </ul>
+    <div class="nav-burger" id="navBurger"><span></span><span></span><span></span></div>
+  </nav>
+
+  <section class="page-hero">
+    <span class="page-hero-tag">Katalog</span>
+    <h1>Naši <em>proizvodi</em></h1>
+    <p>Pažljivo biran asortiman prirodne hrane, preparata i opreme za sve vrste ljubimaca.</p>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <div class="filter-inner">
+      <button class="filter-btn active" onclick="filterProducts('sve', this)">🌿 Sve</button>
+      <button class="filter-btn" onclick="filterProducts('psi', this)">🐕 Za pse</button>
+      <button class="filter-btn" onclick="filterProducts('macke', this)">🐈 Za mačke</button>
+      <button class="filter-btn" onclick="filterProducts('mali', this)">🐹 Mali ljubimci</button>
+      <button class="filter-btn" onclick="filterProducts('suplementi', this)">💊 Suplementi</button>
+      <button class="filter-btn" onclick="filterProducts('nega', this)">🌸 Nega</button>
+      <button class="filter-btn" onclick="filterProducts('akcija', this)">🔥 Akcija</button>
+    </div>
+  </div>
+
+  <!-- PROMO BANNER -->
+  <div class="promo-banner">
+    <div class="promo-inner" id="promoBanner">
+      <div class="promo-text">
+        <div class="promo-tag">🔥 Trenutna akcija — ograničene količine</div>
+        <div class="promo-title">Letnja akcija na medicinsku hranu</div>
+        <div class="promo-desc">Popust na sve veterinarske dijetetske hrane — Josera, Hills, Royal Canin Vet. Do isteka zaliha.</div>
+      </div>
+      <div class="promo-badge">-20%<span>na vet. hranu</span></div>
+    </div>
+  </div>
+
+  <section class="catalog">
+    <div class="catalog-inner">
+
+      <div class="catalog-notice">
+        <p><strong>Napomena:</strong> Cene su informativnog karaktera i podložne su promenama. Za tačne cene i dostupnost, kontaktirajte nas na <a href="tel:+381600000000" style="color:var(--green-dark); font-weight:700;">+381 60 000 00 00</a> ili nas posetite u prodavnici. Akcije važe do isteka zaliha.</p>
+      </div>
+
+      <!-- MEDICINSKA HRANA ZA PSE -->
+      <div class="catalog-section" id="cat-psi">
+        <div class="catalog-section-header">
+          <div class="catalog-section-icon">🐕</div>
+          <h2>Hrana za pse — <em>medicinska</em></h2>
+          <span class="catalog-section-tag">Veterinarska dijeta</span>
+        </div>
+        <div class="products-grid">
+
+          <div class="product-card" data-cat="psi akcija">
+            <div class="product-badge-akcija">-20% Akcija</div>
+            <div class="product-img">🐕</div>
+            <div class="product-body">
+              <div class="product-brand">Royal Canin Vet</div>
+              <div class="product-name">Renal Support — bubreg</div>
+              <div class="product-desc">Dijetetska hrana za pse s hroničnom bubrežnom insuficijencijom. Smanjen fosfor i protein.</div>
+              <div class="product-tags"><span class="product-tag">Bubrezi</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="old-price">3.500 RSD</div>
+                  <div class="new-price akcija">2.800 RSD</div>
+                  <div class="per">/ 2 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Royal Canin Renal Support')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="psi akcija">
+            <div class="product-badge-akcija">-20% Akcija</div>
+            <div class="product-img">🐕</div>
+            <div class="product-body">
+              <div class="product-brand">Hills Prescription</div>
+              <div class="product-name">i/d Digestive Care</div>
+              <div class="product-desc">Za pse s digestivnim poremećajima. Visoka svarljivost, prebiotici, ograničena mast.</div>
+              <div class="product-tags"><span class="product-tag">Digestiv</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="old-price">4.200 RSD</div>
+                  <div class="new-price akcija">3.360 RSD</div>
+                  <div class="per">/ 1.5 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Hills i/d')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="psi akcija">
+            <div class="product-badge-akcija">-20% Akcija</div>
+            <div class="product-img">🐕</div>
+            <div class="product-body">
+              <div class="product-brand">Josera</div>
+              <div class="product-name">Hepatic — jetra</div>
+              <div class="product-desc">Dijeta za pse s oboljenjem jetre. Snižen bakar, visokokvalitetni proteini, visoka energetska vrednost.</div>
+              <div class="product-tags"><span class="product-tag">Jetra</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="old-price">3.800 RSD</div>
+                  <div class="new-price akcija">3.040 RSD</div>
+                  <div class="per">/ 1.5 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Josera Hepatic')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="psi">
+            <div class="product-badge-novo">Novo</div>
+            <div class="product-img">🐕</div>
+            <div class="product-body">
+              <div class="product-brand">Royal Canin Vet</div>
+              <div class="product-name">Gastrointestinal Low Fat</div>
+              <div class="product-desc">Niskokalorijsko rešenje za pse s pankreatitisom i digestivnim smetnjama.</div>
+              <div class="product-tags"><span class="product-tag">Pankreas</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">3.200 RSD</div>
+                  <div class="per">/ 1.5 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('RC Gastrointestinal Low Fat')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- PRIRODNA HRANA ZA PSE -->
+      <div class="catalog-section" id="cat-psi-prirodna">
+        <div class="catalog-section-header">
+          <div class="catalog-section-icon">🌿</div>
+          <h2>Hrana za pse — <em>prirodna</em></h2>
+          <span class="catalog-section-tag">Holostički pristup</span>
+        </div>
+        <div class="products-grid">
+
+          <div class="product-card" data-cat="psi">
+            <div class="product-img">🥩</div>
+            <div class="product-body">
+              <div class="product-brand">Acana</div>
+              <div class="product-name">Wild Atlantic — riba i morski plodovi</div>
+              <div class="product-desc">Bez žitarica, 60% ribe i morskih plodova, bogata omega-3 kiselinama. Za sjajnu dlaku i vitalne zglobove.</div>
+              <div class="product-tags"><span class="product-tag">Grain-free</span><span class="product-tag">Omega-3</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">5.200 RSD</div>
+                  <div class="per">/ 2 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Acana Wild Atlantic')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="psi">
+            <div class="product-img">🌾</div>
+            <div class="product-body">
+              <div class="product-brand">Orijen</div>
+              <div class="product-name">Six Fish — 6 vrsta ribe</div>
+              <div class="product-desc">Biologically Appropriate formula, 85% ribe, bez žitarica. Idealno za pse s alergijama.</div>
+              <div class="product-tags"><span class="product-tag">Alergije</span><span class="product-tag">Grain-free</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">6.800 RSD</div>
+                  <div class="per">/ 2 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Orijen Six Fish')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MEDICINSKA HRANA ZA MAČKE -->
+      <div class="catalog-section" id="cat-macke">
+        <div class="catalog-section-header">
+          <div class="catalog-section-icon">🐈</div>
+          <h2>Hrana za mačke — <em>medicinska</em></h2>
+          <span class="catalog-section-tag">Veterinarska dijeta</span>
+        </div>
+        <div class="products-grid">
+
+          <div class="product-card" data-cat="macke akcija">
+            <div class="product-badge-akcija">-20% Akcija</div>
+            <div class="product-img">🐈</div>
+            <div class="product-body">
+              <div class="product-brand">Royal Canin Vet</div>
+              <div class="product-name">Urinary S/O — urinarni trakt</div>
+              <div class="product-desc">Za mačke s urolizama i FLUTD. Povećana mokraćna produkcija, rastvaranje struvita.</div>
+              <div class="product-tags"><span class="product-tag">Urinarni</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="old-price">3.200 RSD</div>
+                  <div class="new-price akcija">2.560 RSD</div>
+                  <div class="per">/ 1.5 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('RC Urinary S/O mačka')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="macke akcija">
+            <div class="product-badge-akcija">-20% Akcija</div>
+            <div class="product-img">🐈</div>
+            <div class="product-body">
+              <div class="product-brand">Hills Prescription</div>
+              <div class="product-name">k/d — bubrežna dijeta mačka</div>
+              <div class="product-desc">Reduciran fosfor i protein za podršku bubrežne funkcije. Okus koji mačke vole.</div>
+              <div class="product-tags"><span class="product-tag">Bubrezi</span><span class="product-tag">Mokra</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="old-price">2.800 RSD</div>
+                  <div class="new-price akcija">2.240 RSD</div>
+                  <div class="per">/ 12×85g</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Hills k/d mačka')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="macke">
+            <div class="product-img">🐈</div>
+            <div class="product-body">
+              <div class="product-brand">Josera</div>
+              <div class="product-name">Diabetic — dijabetes</div>
+              <div class="product-desc">Niska glikemija, visok protein, smanjen ugljeni hidrat. Za mačke s dijabetesom.</div>
+              <div class="product-tags"><span class="product-tag">Dijabetes</span><span class="product-tag">Suva</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">3.500 RSD</div>
+                  <div class="per">/ 2 kg</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Josera Diabetic mačka')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SUPLEMENTI -->
+      <div class="catalog-section" id="cat-suplementi">
+        <div class="catalog-section-header">
+          <div class="catalog-section-icon">💊</div>
+          <h2>Suplementi i <em>vitamini</em></h2>
+          <span class="catalog-section-tag">Veterinarska apoteka</span>
+        </div>
+        <div class="products-grid">
+
+          <div class="product-card" data-cat="suplementi">
+            <div class="product-img">🌿</div>
+            <div class="product-body">
+              <div class="product-brand">Canina</div>
+              <div class="product-name">Gelenk Fit — zglobovi i hrskavica</div>
+              <div class="product-desc">Glukozamin, hondroitin i MSM za zdravlje zglobova. Za starije pse i aktivne rase.</div>
+              <div class="product-tags"><span class="product-tag">Zglobovi</span><span class="product-tag">Psi</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">2.800 RSD</div>
+                  <div class="per">/ 100 tableta</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Canina Gelenk Fit')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="suplementi">
+            <div class="product-badge-novo">Novo</div>
+            <div class="product-img">🐟</div>
+            <div class="product-body">
+              <div class="product-brand">NordVet</div>
+              <div class="product-name">Omega-3 riblje ulje</div>
+              <div class="product-desc">Čisto riblje ulje iz Norveške. EPA i DHA za sjajnu dlaku, zdravu kožu i kardiovaskularni sistem.</div>
+              <div class="product-tags"><span class="product-tag">Dlaka</span><span class="product-tag">Koža</span><span class="product-tag">Psi & Mačke</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">1.800 RSD</div>
+                  <div class="per">/ 250 ml</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('NordVet Omega-3')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="suplementi">
+            <div class="product-img">🌸</div>
+            <div class="product-body">
+              <div class="product-brand">Beaphar</div>
+              <div class="product-name">Calming — anti-stres formula</div>
+              <div class="product-desc">Prirodna formula s valerijano i L-triptofanom. Za anksiozne ljubimce i putovanja.</div>
+              <div class="product-tags"><span class="product-tag">Stres</span><span class="product-tag">Prirodno</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">1.500 RSD</div>
+                  <div class="per">/ 20 tableta</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Beaphar Calming')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- NEGA -->
+      <div class="catalog-section" id="cat-nega">
+        <div class="catalog-section-header">
+          <div class="catalog-section-icon">🌸</div>
+          <h2>Prirodna <em>nega</em></h2>
+          <span class="catalog-section-tag">Koža i dlaka</span>
+        </div>
+        <div class="products-grid">
+
+          <div class="product-card" data-cat="nega">
+            <div class="product-img">🛁</div>
+            <div class="product-body">
+              <div class="product-brand">Iv San Bernard</div>
+              <div class="product-name">Fruit of the Groomer — šampon zelena jabuka</div>
+              <div class="product-desc">Prirodni šampon s ekstraktom zelene jabuke za sjajnu i meku dlaku. Bez parabena i silikona.</div>
+              <div class="product-tags"><span class="product-tag">Šampon</span><span class="product-tag">Bez parabena</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">1.200 RSD</div>
+                  <div class="per">/ 300 ml</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('ISB Šampon zelena jabuka')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="product-card" data-cat="nega">
+            <div class="product-img">🌿</div>
+            <div class="product-body">
+              <div class="product-brand">Tropiclean</div>
+              <div class="product-name">Teeth Cleaning Gel — oralna higijena</div>
+              <div class="product-desc">Prirodni gel za čišćenje zuba. Sprečava kamenac i svež dah. Bez četkice — samo na zube.</div>
+              <div class="product-tags"><span class="product-tag">Zubi</span><span class="product-tag">Oralna higijena</span></div>
+              <div class="product-footer">
+                <div class="product-price">
+                  <div class="new-price">900 RSD</div>
+                  <div class="per">/ 59 ml</div>
+                </div>
+                <button class="product-inquiry" onclick="contactInquiry('Tropiclean zubni gel')">📞 Upitaj</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-inner">
+      <div>
+        <div class="footer-logo"><img src="slike/logo.png" alt="Zdrava Šapica" /></div>
+        <p class="footer-tagline">Zdravlje koje dolazi iz prirode ♡</p>
+        <p class="footer-desc">Pet shop i veterinarska apoteka posvećena holističkom pristupu zdravlju vaših ljubimaca.</p>
+        <div class="footer-social">
+          <a href="https://instagram.com/" target="_blank" class="social-btn">📸</a>
+          <a href="https://facebook.com/" target="_blank" class="social-btn">👍</a>
+        </div>
+      </div>
+      <div class="footer-nav">
+        <h4>Stranice</h4>
+        <ul>
+          <li><a href="index.html">Početna</a></li>
+          <li><a href="o-nama.html">O nama</a></li>
+          <li><a href="proizvodi.html">Proizvodi</a></li>
+          <li><a href="blog.html">Blog</a></li>
+          <li><a href="kontakt.html">Kontakt</a></li>
+        </ul>
+      </div>
+      <div class="footer-nav">
+        <h4>Kontakt</h4>
+        <ul>
+          <li><a href="tel:+381600000000">+381 60 000 00 00</a></li>
+          <li><a href="mailto:zdravasapica@email.com">zdravasapica@email.com</a></li>
+          <li><a href="kontakt.html">Pronađi nas</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 Zdrava Šapica. Sva prava zadržana.</p>
+      <p>Napravljeno s 🐾 ljubavlju</p>
+    </div>
+  </footer>
+
+  <script>
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 20));
+    document.getElementById('navBurger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+
+    // Filter
+    function filterProducts(cat, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const cards = document.querySelectorAll('.product-card');
+      cards.forEach(card => {
+        const cats = card.getAttribute('data-cat') || '';
+        if (cat === 'sve' || cats.includes(cat)) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // Contact inquiry
+    function contactInquiry(product) {
+      window.location.href = `kontakt.html?product=${encodeURIComponent(product)}`;
+    }
+
+    const observer = new IntersectionObserver(entries => entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } }), { threshold: 0.08 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
