@@ -56,8 +56,16 @@
     text-decoration: none;
   }
   .nav-logo img {
-    margin-top: 100px; height: 200px; width: auto;
+    height: 60px;
+    width: auto;
     object-fit: contain;
+    margin-top: 0;
+  }
+  
+  @media (max-width: 680px) {
+    .nav-logo img {
+      height: 42px;
+    }
   }
   .nav-logo-text {
     display: flex;
